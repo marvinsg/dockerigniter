@@ -1,4 +1,4 @@
-#Dockerigniter
+# Dockerigniter
 ### A codeigniter development environment implemented with docker
 
 #### Requirements

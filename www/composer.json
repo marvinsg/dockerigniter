@@ -11,7 +11,17 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.3.7"
+		"php": ">=5.6"
+	},
+	"autoload": {
+		"psr-4": {
+			"Dockerigniter\\": "www/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Dockerigniter\\Tests\\": "tests/"
+		}
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

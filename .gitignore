@@ -1,5 +1,6 @@
 .DS_Store
 
+persistence/*
 application/cache/*
 !application/cache/index.html
 
@@ -29,3 +30,6 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /tests/tests/
 /tests/results/
+
+## Codeigniter Files
+index.php

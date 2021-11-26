@@ -80,7 +80,7 @@ dev: hosts-entry docker-build dev-env
 ## Unit testing: Run unit tests
 .PHONY: test-unit
 test-unit:
-	@docker exec -ti php-dockerigniter vendor/bin/phpunit -c application/tests/
+	@docker exec -ti php-dockerigniter php -n -dzend_extension=xdebug -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-text -c application/tests/
 
 ## Switch to dev env
 .PHONY: dev-env

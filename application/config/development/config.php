@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
  */
-$config['base_url'] = '';
+$config['base_url'] = 'http://dev.dockerigniter.local:8989';
 
 /*
 |--------------------------------------------------------------------------
@@ -136,8 +136,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
  */
-$config['composer_autoload'] = FALSE;
-
+$config['composer_autoload'] = FCPATH.'vendor/autoload.php';
 /*
 |--------------------------------------------------------------------------
 | Allowed URL Characters
@@ -315,6 +314,21 @@ $config['cache_query_string'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
+| Redis Cache Driver
+|--------------------------------------------------------------------------
+|
+| Whether to take the URL query string into consideration when generating
+| output cache files. Valid options are:
+*/
+$config['socket_type'] = 'tcp'; //`tcp` or `unix`
+$config['socket'] = '/var/run/redis.sock'; // in case of `unix` socket type
+$config['host'] = '127.0.0.1';
+$config['password'] = NULL;
+$config['port'] = 6379;
+$config['timeout'] = 0;
+
+/*
+|--------------------------------------------------------------------------
 | Encryption Key
 |--------------------------------------------------------------------------
 |
@@ -324,7 +338,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
  */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'LHuSFUjZO5FHLGNU9bjD';
 
 /*
 |--------------------------------------------------------------------------

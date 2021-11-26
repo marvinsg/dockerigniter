@@ -315,6 +315,21 @@ $config['cache_query_string'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
+| Redis Cache Driver
+|--------------------------------------------------------------------------
+|
+| Whether to take the URL query string into consideration when generating
+| output cache files. Valid options are:
+*/
+$config['socket_type'] = 'tcp'; //`tcp` or `unix`
+$config['socket'] = '/var/run/redis.sock'; // in case of `unix` socket type
+$config['host'] = '127.0.0.1';
+$config['password'] = 1234;
+$config['port'] = 6379;
+$config['timeout'] = 0;
+
+/*
+|--------------------------------------------------------------------------
 | Encryption Key
 |--------------------------------------------------------------------------
 |
@@ -324,7 +339,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
  */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'LHuSFUjZO5FHLGNU9bjD';
 
 /*
 |--------------------------------------------------------------------------

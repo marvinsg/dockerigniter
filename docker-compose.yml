@@ -1,18 +1,19 @@
 version: "2"
 services:
+
     php:
         container_name: php-dockerigniter
-        build: ./php
+        build: ./resources/docker/php
         volumes:
-            - ./www/:/var/www/html
+            - ./:/var/www/html
         expose:
-            - 80
+            - 8989
         ports:
-            - 80:80
+            - 8989:80
         links: 
             - mysql
             - redis
-            - phpmyadmin
+
     mysql:
         container_name: mysql-dockerigniter
         image: mysql:5.7
@@ -27,28 +28,12 @@ services:
         expose:
           - '3306'
         volumes:
-          - ./persistence/mysql:/var/lib/mysql
-    phpmyadmin:
-        container_name: phpmyadmin-dockerigniter
-        image: phpmyadmin/phpmyadmin
-        links: 
-            - mysql:mysql
-        ports:
-            - 8000:80
-        environment:
-            MYSQL_USER: admin
-            MYSQL_PASSWORD: Foo1234
-            MYSQL_ROOT_PASSWORD: Foo1234
+          - ./resources/docker/persistence/mysql:/var/lib/mysql
+
     redis:
         container_name: redis-dockerigniter
-        image: "redis"
-        command: redis-server --requirepass Foo1234
+        image: redis
         ports:
             - "6379:6379"
         volumes:
-            - ./persistence/redis-data:/var/lib/redis
-            - ./persistence/redis.conf:/usr/local/etc/redis/redis.conf
-        expose:
-            - 6379
-        environment:
-            - REDIS_REPLICATION_MODE=master
+            - ./resources/docker/persistence/redis:/data

@@ -22,23 +22,23 @@ COLOR_LIGHT_GRAY:=\033[0;37m
 
 .PHONY: help
 help:
-	@echo ""
-	@echo -e "$(COLOR_GREEN)Make commands:$(COLOR_NC)"
+	@echo "-------------------------------------------------------------------------------------"
+	@echo -e "$(COLOR_GREEN)******************************** Makefile Commands: *********************************$(COLOR_NC)"
+	@echo "-------------------------------------------------------------------------------------"
 	@echo -e "    $(COLOR_YELLOW)help          	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Show help menu $(COLOR_NC)"
-	@echo
+	@echo "-------------------------------------------------------------------------------------"
 	@echo -e "    $(COLOR_YELLOW)dev  	       	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Boots development environment $(COLOR_NC)"
 	@echo -e "    $(COLOR_YELLOW)dev-env  	       	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Switch the config file to DEV Env $(COLOR_NC)"
 	@echo -e "    $(COLOR_YELLOW)stg-env  	       	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Switch the config file to STG Env $(COLOR_NC)"
 	@echo -e "    $(COLOR_YELLOW)prod-env  	       	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Switch the config file to PROD Env $(COLOR_NC)"
 	@echo -e "    $(COLOR_YELLOW)docker-build  	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Recreate new php images $(COLOR_NC)"
 	@echo -e "    $(COLOR_YELLOW)hosts-entry   	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Add an entry for dockerigniter.local in etc/hosts $(COLOR_NC)"
+	@echo "-------------------------------------------------------------------------------------"
 	@echo -e "    $(COLOR_YELLOW)composer-require        $(COLOR_PURPLE)-> $(COLOR_CYAN) Add composer packages $(COLOR_NC)"
 	@echo -e "    $(COLOR_YELLOW)composer-vendor         $(COLOR_PURPLE)-> $(COLOR_CYAN) composer install $(COLOR_NC)"
-	@echo ""
-	@echo -e "    $(COLOR_YELLOW)test-unit     	    $(COLOR_PURPLE)-> $(COLOR_CYAN) execute phpunit tests $(COLOR_NC)"
-	@echo -e "    $(COLOR_YELLOW)test-acceptance         $(COLOR_PURPLE)-> $(COLOR_CYAN) execute behat tests $(COLOR_NC)"
-	@echo -e "    $(COLOR_YELLOW)test-this-acceptance    $(COLOR_PURPLE)-> $(COLOR_CYAN) execute behat tests with $(COLOR_YELLOW)@this$(COLOR_CYAN) tag$(COLOR_NC) "
-	@echo -e "    $(COLOR_YELLOW)test-integration        $(COLOR_PURPLE)-> $(COLOR_CYAN) execute integration tests $(COLOR_NC)"
+	@echo "-------------------------------------------------------------------------------------"
+	@echo -e "    $(COLOR_YELLOW)test-unit     	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Run PHPUnit tests $(COLOR_NC)"
+	@echo "-------------------------------------------------------------------------------------"
 	@echo ""
 
 ## docker-build: build docker images
@@ -59,7 +59,8 @@ del-hosts-entry:
 .PHONY: composer-require
 composer-require:
 	@docker exec -ti php-dockerigniter composer require ${package} ${parameters}
-## vendor: install composer dependencies
+
+## Install composer dependencies
 .PHONY: composer-vendor
 composer-vendor:
 	@docker exec -ti php-dockerigniter composer install
@@ -76,25 +77,10 @@ dev: hosts-entry docker-build dev-env
 	@echo ""
 	@echo "####################################################################"
 
-## test run unit tests
+## Unit testing: Run unit tests
 .PHONY: test-unit
 test-unit:
-	@docker-compose exec php-dockerigniter bin/phpunit -c tests/Unit/phpunit.xml ${parameters}
-
-## test run acceptance behat tests
-.PHONY: test-acceptance
-test-acceptance:
-	@docker-compose exec php-dockerigniter bin/behat -c tests/Acceptance/behat.yml.dist --colors ${parameters}
-
-## test run acceptance @this behat tests
-.PHONY: test-this-acceptance
-test-this-acceptance:
-	@docker-compose exec php-dockerigniter bin/behat -c tests/Acceptance/behat.yml.dist --tags '@this' --colors ${parameters}
-
-## test run unit integration
-.PHONY: test-integration
-test-integration:
-	@docker-compose exec php-dockerigniter bash -c "SYMFONY_DEPRECATIONS_HELPER=disabled APP_ENV=test bin/phpunit -d memory_limit=256M -c tests/Integration/phpunit.xml ${parameters}"
+	@docker exec -ti php-dockerigniter vendor/bin/phpunit -c application/tests/
 
 ## Switch to dev env
 .PHONY: dev-env

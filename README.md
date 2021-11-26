@@ -17,7 +17,7 @@ $ git clone https://github.com/marvinsg/dockerigniter
 $ cd dockerigniter
 ```
 
-- Turn up Docker containers
+- Show Makefile Help Menu
 ```
-$ docker-compose up -d
+$ make help
 ```

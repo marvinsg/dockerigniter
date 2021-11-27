@@ -32,6 +32,7 @@ RUN pecl install -o -f redis \
 &&  docker-php-ext-enable redis
 
 # Override default config with custom PHP settings
-COPY opcache.ini $PHP_INI_DIR/conf.d/
-COPY php-ini-overrides.ini $PHP_INI_DIR/conf.d/
-COPY xdebug.ini $PHP_INI_DIR/conf.d/
+COPY opcache.ini /usr/local/etc/php/conf.d/
+COPY php-ini-overrides.ini /usr/local/etc/php/conf.d/
+COPY xdebug.ini /usr/local/etc/php/conf.d/
+COPY pre-commit /var/www/html/.git/hooks

@@ -35,4 +35,3 @@ RUN pecl install -o -f redis \
 COPY opcache.ini /usr/local/etc/php/conf.d/
 COPY php-ini-overrides.ini /usr/local/etc/php/conf.d/
 COPY xdebug.ini /usr/local/etc/php/conf.d/
-COPY pre-commit /var/www/html/.git/hooks

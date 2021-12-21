@@ -1,3 +1,4 @@
+current-dir:=$(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SHELL=/bin/bash
 
 HOSTS_ENTRY:=127.0.0.1 dev.dockerigniter.local
@@ -20,54 +21,29 @@ COLOR_YELLOW:=\033[1;33m
 COLOR_GRAY:=\033[0;30m
 COLOR_LIGHT_GRAY:=\033[0;37m
 
+define HEADER
+
+██████╗░░█████╗░░█████╗░██╗░░██╗███████╗██████╗░██╗░██████╗░███╗░░██╗██╗████████╗███████╗██████╗░
+██╔══██╗██╔══██╗██╔══██╗██║░██╔╝██╔════╝██╔══██╗██║██╔════╝░████╗░██║██║╚══██╔══╝██╔════╝██╔══██╗
+██║░░██║██║░░██║██║░░╚═╝█████═╝░█████╗░░██████╔╝██║██║░░██╗░██╔██╗██║██║░░░██║░░░█████╗░░██████╔╝
+██║░░██║██║░░██║██║░░██╗██╔═██╗░██╔══╝░░██╔══██╗██║██║░░╚██╗██║╚████║██║░░░██║░░░██╔══╝░░██╔══██╗
+██████╔╝╚█████╔╝╚█████╔╝██║░╚██╗███████╗██║░░██║██║╚██████╔╝██║░╚███║██║░░░██║░░░███████╗██║░░██║
+╚═════╝░░╚════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝╚═╝░╚═════╝░╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝
+
+endef
+export HEADER
+
+## Default entry point. Show help menu
 .PHONY: help
-help:
-	@echo "-------------------------------------------------------------------------------------"
-	@echo -e "$(COLOR_GREEN)******************************** Makefile Commands: *********************************$(COLOR_NC)"
-	@echo "-------------------------------------------------------------------------------------"
-	@echo -e "    $(COLOR_YELLOW)help          	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Show help menu $(COLOR_NC)"
-	@echo "-------------------------------------------------------------------------------------"
-	@echo -e "    $(COLOR_YELLOW)dev  	       	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Boots development environment $(COLOR_NC)"
-	@echo -e "    $(COLOR_YELLOW)dev-env  	       	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Switch the config file to DEV Env $(COLOR_NC)"
-	@echo -e "    $(COLOR_YELLOW)stg-env  	       	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Switch the config file to STG Env $(COLOR_NC)"
-	@echo -e "    $(COLOR_YELLOW)prod-env  	       	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Switch the config file to PROD Env $(COLOR_NC)"
-	@echo -e "    $(COLOR_YELLOW)docker-build  	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Recreate new php images $(COLOR_NC)"
-	@echo -e "    $(COLOR_YELLOW)hosts-entry   	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Add an entry for dockerigniter.local in etc/hosts $(COLOR_NC)"
-	@echo "-------------------------------------------------------------------------------------"
-	@echo -e "    $(COLOR_YELLOW)composer-require        $(COLOR_PURPLE)-> $(COLOR_CYAN) Add composer packages $(COLOR_NC)"
-	@echo -e "    $(COLOR_YELLOW)composer-vendor         $(COLOR_PURPLE)-> $(COLOR_CYAN) composer install $(COLOR_NC)"
-	@echo "-------------------------------------------------------------------------------------"
-	@echo -e "    $(COLOR_YELLOW)test-unit     	    $(COLOR_PURPLE)-> $(COLOR_CYAN) Run PHPUnit tests $(COLOR_NC)"
-	@echo "-------------------------------------------------------------------------------------"
+help: ## Show help menu
+	clear
+	@echo "$$HEADER"
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf " $(COLOR_YELLOW)%-20s$(COLOR_PURPLE)->$(COLOR_CYAN)  %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 	@echo ""
 
-## docker-build: build docker images
-.PHONY: docker-build
-docker-build:
-	docker-compose build
-
-## hosts-entry: Set up an entry for this project's host names in /etc/hosts
-.PHONY: hosts-entry
-hosts-entry:
-	(grep "$(HOSTS_ENTRY)" /etc/hosts) || echo '$(HOSTS_ENTRY)' | sudo tee -a /etc/hosts
-
-.PHONY: del-hosts-entry
-del-hosts-entry:
-	sudo sed -i".bak" "/$(HOSTS_ENTRY)/d" /etc/hosts
-
-## Composer require
-.PHONY: composer-require
-composer-require:
-	@docker exec -ti php-dockerigniter composer require ${package} ${parameters}
-
-## Install composer dependencies
-.PHONY: composer-vendor
-composer-vendor:
-	@docker exec -ti php-dockerigniter composer install
-
-## dev: Boot dev environment
+## Boot dev environment
 .PHONY: dev
-dev: hosts-entry docker-build dev-env
+dev: hosts-entry docker-build dev-env ## Boots development environment
 	docker-compose up -d --no-build --remove-orphans --force-recreate
 	@docker exec -ti php-dockerigniter composer install
 	@echo "####################################################################"
@@ -77,27 +53,47 @@ dev: hosts-entry docker-build dev-env
 	@echo ""
 	@echo "####################################################################"
 
-## Unit testing: Run unit tests
-.PHONY: test-unit
-test-unit:
-	@docker exec -ti php-dockerigniter php -n -dzend_extension=xdebug -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-text -c application/tests/
-
 ## Switch to dev env
 .PHONY: dev-env
-dev-env:
+dev-env: ## Switch the config file to DEV Env
 	cp -r resources/codeigniter-config-templates/dev/index.php index.php
 
 ## Switch to stg env
 .PHONY: dev-stg
-stg-env:
+stg-env: ## Switch the config file to STG Env
 	cp -i resources/codeigniter-config-templates/stg/index.php index.php
 
 ## Switch to prod env
 .PHONY: prod-env
-prod-env:
+prod-env: ## Switch the config file to PROD Env
 	cp -i resources/codeigniter-config-templates/prod/index.php index.php
 
-.PHONY: test
-test:
-	@docker exec -ti php-dockerigniter echo "I'm executing composer from inside of container!"
+## Build docker images
+.PHONY: docker-build 
+docker-build: ## Recreate new php images
+	docker-compose build
+
+## Set up an entry for this project's host names in /etc/hosts
+.PHONY: hosts-entry
+hosts-entry: ## Add an entry for dockerigniter.local in etc/hosts
+	(grep "$(HOSTS_ENTRY)" /etc/hosts) || echo '$(HOSTS_ENTRY)' | sudo tee -a /etc/hosts
+
+## Delete hosts entry and restore the previous backup
+.PHONY: del-hosts-entry
+del-hosts-entry: ## Delete hosts entry for dockerigniter.local in etc/hosts
+	sudo sed -i".bak" "/$(HOSTS_ENTRY)/d" /etc/hosts
+
+## Execute Composer require
+.PHONY: composer-require
+composer-require: ## Add composer packages
+	@docker exec -ti php-dockerigniter composer require ${package} ${parameters}
+
+## Install composer dependencies
+.PHONY: composer-vendor
+composer-vendor: ## Execute composer install
 	@docker exec -ti php-dockerigniter composer install
+
+## Run unit tests
+.PHONY: test-unit
+test-unit: ## Run PHPUnit tests
+	@docker exec -ti php-dockerigniter php -n -dzend_extension=xdebug -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-text -c application/tests/

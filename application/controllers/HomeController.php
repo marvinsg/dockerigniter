@@ -10,7 +10,8 @@ final class HomeController extends MY_Controller
 
 	protected function middleware()
 	{
-		return ['Foo:firstArgument'];
+		// The first part should be the Middleware name : And following this format you can provide N arguments to middleware separating with :
+		return ['Foo:firstArgument:secondArgument:thirdArgument'];
 	}
 
 	public function foo()

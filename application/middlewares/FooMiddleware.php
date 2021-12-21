@@ -14,6 +14,6 @@ final class FooMiddleware
 
 	public function run(?array $arguments = null): void
 	{
-		// Here you can implement your middleware logic
+		// Here you can implement your middleware logic and you can access to arguments
 	}
 }

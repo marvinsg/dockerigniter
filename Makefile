@@ -43,7 +43,7 @@ help: ## Show help menu
 
 ## Boot dev environment
 .PHONY: dev
-dev: hosts-entry docker-build dev-env ## Boots development environment
+dev: hosts-entry docker-build dev-env composer-vendor ## Boots development environment
 	docker-compose up -d --no-build --remove-orphans --force-recreate
 	@docker exec -ti php-dockerigniter composer install
 	@echo "####################################################################"

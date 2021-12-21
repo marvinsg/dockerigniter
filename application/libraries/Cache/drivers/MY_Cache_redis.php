@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Cache_redis extends CI_Cache_redis
 {
-
 	/**
 	 * Class constructor
 	 *

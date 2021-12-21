@@ -23,6 +23,7 @@ vendor/*
 #-------------------------
 /nbproject/
 .idea/*
+.phpintel
 
 # Sublime Text cache files
 *.tmlanguage.cache

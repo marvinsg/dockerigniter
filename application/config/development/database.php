@@ -75,14 +75,14 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'          => '',
-	'hostname'     => '127.0.0.1',
+	'hostname'     => 'mysql:3306',
 	'username'     => 'admin',
-	'password'     => 'Foo12345',
+	'password'     => 'Foo1234',
 	'database'     => 'dockerigniter',
 	'dbdriver'     => 'mysqli',
 	'dbprefix'     => '',
 	'pconnect'     => FALSE,
-	'db_debug'     => (ENVIRONMENT !== 'production'),
+	'db_debug'     => TRUE,
 	'cache_on'     => FALSE,
 	'cachedir'     => '',
 	'char_set'     => 'utf8',

@@ -43,7 +43,7 @@ help: ## Show help menu
 
 ## Boot dev environment
 .PHONY: dev
-dev: hosts-entry docker-build dev-env composer-vendor ## Boots development environment
+dev: hosts-entry docker-build dev-env ## Boots development environment
 	docker-compose up -d --no-build --remove-orphans --force-recreate
 	@docker exec -ti php-dockerigniter composer install
 	@echo "####################################################################"
@@ -69,7 +69,7 @@ prod-env: ## Switch the config file to PROD Env
 	cp -i resources/codeigniter-config-templates/prod/index.php index.php
 
 ## Build docker images
-.PHONY: docker-build 
+.PHONY: docker-build
 docker-build: ## Recreate new php images
 	docker-compose build
 

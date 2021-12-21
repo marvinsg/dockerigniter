@@ -83,6 +83,11 @@ hosts-entry: ## Add an entry for dockerigniter.local in etc/hosts
 del-hosts-entry: ## Delete hosts entry for dockerigniter.local in etc/hosts
 	sudo sed -i".bak" "/$(HOSTS_ENTRY)/d" /etc/hosts
 
+## Enter to PHP-FPM Docker Container in Bash Mode
+.PHONY: php
+php: ## Enter to PHP-FPM Docker Container in Bash Mode
+	@docker exec -ti php-dockerigniter bash
+
 ## Execute Composer require
 .PHONY: composer-require
 composer-require: ## Add composer packages

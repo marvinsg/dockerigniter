@@ -54,3 +54,6 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['foo'] = 'HomeController/foo';
+
+/* HealthCheck Controller */
+$route['healthcheck'] = 'HealthCheckController/index';

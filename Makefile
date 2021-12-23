@@ -2,6 +2,7 @@ current-dir:=$(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SHELL=/bin/bash
 
 HOSTS_ENTRY:=127.0.0.1 dev.dockerigniter.local
+HOSTS_ENTRY_MYSQL:=127.0.0.1 mysql
 
 COLOR_NC:=\033[0m
 COLOR_WHITE:=\033[1;37m
@@ -77,6 +78,7 @@ docker-build: ## Recreate new php images
 .PHONY: hosts-entry
 hosts-entry: ## Add an entry for dockerigniter.local in etc/hosts
 	(grep "$(HOSTS_ENTRY)" /etc/hosts) || echo '$(HOSTS_ENTRY)' | sudo tee -a /etc/hosts
+	(grep "$(HOSTS_ENTRY_MYSQL)" /etc/hosts) || echo '$(HOSTS_ENTRY_MYSQL)' | sudo tee -a /etc/hosts
 
 ## Delete hosts entry and restore the previous backup
 .PHONY: del-hosts-entry

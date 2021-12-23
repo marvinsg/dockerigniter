@@ -85,6 +85,11 @@ hosts-entry: ## Add an entry for dockerigniter.local in etc/hosts
 del-hosts-entry: ## Delete hosts entry for dockerigniter.local in etc/hosts
 	sudo sed -i".bak" "/$(HOSTS_ENTRY)/d" /etc/hosts
 
+## Install Git commit hooks (PHP Internal Linter, PHP Code Sniffer, PHPStan)
+.PHONY: git-commit-hooks
+git-commit-hooks: ## Install Git commit hooks (PHP Internal Linter, PHP Code Sniffer, PHPStan)
+	cp resources/phpstan/pre-commit .git/hooks/pre-commit
+
 ## Enter to PHP-FPM Docker Container in Bash Mode
 .PHONY: php
 php: ## Enter to PHP-FPM Docker Container in Bash Mode
@@ -99,6 +104,11 @@ composer-require: ## Add composer packages
 .PHONY: composer-vendor
 composer-vendor: ## Execute composer install
 	@docker exec -ti php-dockerigniter composer install
+
+## Run unit tests
+.PHONY: run-lint
+run-lint: ## Run PHPStan and Linters
+	@vendor/bin/phpstan analyse -c resources/phpstan/phpstan.neon application/controllers
 
 ## Run unit tests
 .PHONY: test-unit

@@ -1,0 +1,14 @@
+parameters:
+    level: 6
+    paths:
+        - application/controllers
+        #- application/helpers
+        #- application/hooks
+        #- application/interfaces
+        #- application/language
+        #- application/libraries
+        #- application/middlewares
+        #- application/migrations
+        #- application/models
+        #- application/services
+        #- application/views

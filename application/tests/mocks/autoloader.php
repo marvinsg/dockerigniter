@@ -64,6 +64,10 @@ function autoload($class)
 	{
 		$class = strtolower(str_replace(array('Mock_', '_'), array('', DIRECTORY_SEPARATOR), $class));
 	}
+	elseif (strpos($class, 'Stub') === 0)
+	{
+		$class = strtolower(str_replace(array('Stub', 'Stub_', '_'), array('', DIRECTORY_SEPARATOR), $class));
+	}
 	elseif (strpos($class, 'CI_') === 0)
 	{
 		$subclass = substr($class, 3);

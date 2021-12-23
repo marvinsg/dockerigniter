@@ -35,6 +35,6 @@ $ make help
 - Custom PHP Services adapted to PHP 7 and above
 - Migrations system using CLI
 - Pre implemented Email Sending Services (PHPMailer and Sendgrid)
-- Dotenv integrtion to use .env files
+- Dotenv integration to use .env files
 - PHPUnit testing features prepared
 

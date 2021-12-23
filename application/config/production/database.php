@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'          => '',
-	'hostname'     => '127.0.0.1',
-	'username'     => 'admin',
-	'password'     => 'Foo1234',
-	'database'     => 'dockerigniter',
+	'hostname'     => $_ENV['MYSQL_HOST'],
+	'username'     => $_ENV['MYSQL_USERNAME'],
+	'password'     => $_ENV['MYSQL_PASSWORD'],
+	'database'     => $_ENV['MYSQL_SCHEMA'],
 	'dbdriver'     => 'mysqli',
 	'dbprefix'     => '',
 	'pconnect'     => FALSE,

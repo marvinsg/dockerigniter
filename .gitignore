@@ -36,3 +36,4 @@ vendor/*
 
 # Codeigniter Files
 #www/index.php
+.env

@@ -12,7 +12,10 @@
 	},
 	"require": {
 		"php": "^7.4",
-		"predis/predis": "^1.1"
+		"predis/predis": "^1.1",
+		"sendgrid/sendgrid": "^7.11",
+		"vlucas/phpdotenv": "^5.4",
+		"phpmailer/phpmailer": "^6.5"
 	},
 	"autoload": {
 		"psr-4": {
